@@ -3,6 +3,7 @@ import express from 'express';
 import {Server} from 'socket.io';
 import http from 'http';
 import cors from 'cors';
+import router from './routes/routes.js';
 import { addUser, getUser, getUsersInRoom, removeUser } from './users.js';
 
 
@@ -26,6 +27,8 @@ var players= {};
 var namedPlayers ={};
 var games={};
 const noNamePlaceHolder = "-----5"
+
+app.use(router);
 
 io.on('connection', socket => {
     console.log("A No Name PLayer is in the labby: ",socket.id)
