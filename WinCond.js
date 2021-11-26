@@ -20,31 +20,31 @@ export const checkWinner=(gb)=>{
     resDU=checkDiagLRUWin(gb);
     resDD=checkDiagLRDWin(gb);
 
-    console.log("is there a winer???")
+    // console.log("is there a winer???")
     if(resV){
-        console.log("YES Its:",resV )
+        // console.log("YES Its:",resV )
         // setWinner(resV);
         return(resV)
 
     }else if(resH){
-        console.log("YES Its:",resH )
+        // console.log("YES Its:",resH )
         // setWinner(resH);
         return(resH)
 
     }else if(resDU){
-        console.log("YES Its:",resDU)
+        // console.log("YES Its:",resDU)
         // setWinner(resDU);
         return(resDU)
 
     }
     else if(resDD){
-        console.log("YES Its:",resDD)
+        // console.log("YES Its:",resDD)
         // setWinner(resDD);
         return(resDD)
 
     }
     else{
-        console.log("No Winner Yet")
+        // console.log("No Winner Yet")
         return 0
     }
 
@@ -58,7 +58,7 @@ const plrInSlot=(plyr,slot)=>{
 }
 
 const checkVertWin=(gb)=>{
-    console.log("====checkVertWin")
+    // console.log("====checkVertWin")
     // let winner = null;
     const players = ['1','2','3','4'];
 
@@ -85,7 +85,7 @@ const checkVertWin=(gb)=>{
 }
 
 const checkHorzWin=(gb)=>{
-    console.log("====checkHorzDWin")
+    // console.log("====checkHorzDWin")
     // let winner = null;
     const players = ['1','2','3','4'];
 
@@ -121,7 +121,7 @@ const checkHorzWin=(gb)=>{
 }
 
 const checkDiagLRUWin=(gb)=>{
-    console.log("====checkDiagLRUWin")
+    // console.log("====checkDiagLRUWin")
     const players = ['1','2','3','4'];
 
     // let boardslots=[
@@ -156,7 +156,7 @@ const checkDiagLRUWin=(gb)=>{
 }
 
 const checkDiagLRDWin=(gb)=>{
-    console.log("====checkDiagLRDWin")
+    // console.log("====checkDiagLRDWin")
     // let winner = null;
     const players = ['1','2','3','4'];
 

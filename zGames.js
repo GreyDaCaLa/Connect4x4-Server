@@ -42,8 +42,8 @@ function createGame(givenName,mode, pname) {
 
   }
 
-  console.log("THE BIGINNING BOARD")
-  console.log(initBoard)
+  // console.log("THE BIGINNING BOARD")
+  // console.log(initBoard)
   
 
   const newGame = {
@@ -59,14 +59,15 @@ function createGame(givenName,mode, pname) {
 
   games[fixedname] = newGame;
 
-  console.log("here are all the current games saved");
-  console.log(games);
+  // console.log("here are all the current games saved");
+  // console.log(games);
 
   return { newGame };
 }
 
 function getFullGameContent(gameRoomName) {
-  const existingGame = games[gameRoomName];
+
+  const existingGame = games[gameRoomName.trim().toLowerCase()];
 
   if (!existingGame) {
     return { error: "Fatal error this game does not exist" };

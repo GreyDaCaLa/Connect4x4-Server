@@ -23,7 +23,7 @@ io.on('connection', socket => {
     
 
     socket.on("Create_User", (CreateName,CreatePass,callback)=>{
-        console.log("-----Create-User")
+        console.log("-----Create-User--",CreateName)
 
         let { newUser, error }= createUser(CreateName,CreatePass)
         if(error){
@@ -37,7 +37,7 @@ io.on('connection', socket => {
     });
 
     socket.on("Login_User", (name,pass,callback)=>{
-        console.log("-----Login-User")
+        console.log("-----Login-User---",name)
 
         let send_User
 
@@ -106,7 +106,7 @@ io.on('connection', socket => {
         console.log("---Game Exist?")
         let { fullGame, error } = getFullGameContent(searchedGameName)
         if(error){
-            // console.log("error game was not found")
+            console.log("error game was not found--",searchedGameName)
             return callback(error)
         }
         if(fullGame){
