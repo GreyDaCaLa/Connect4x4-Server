@@ -69,22 +69,25 @@ function userAddRoom(name,room){
    return users[name]
 }
 
+function userRemoveRoom(name,room){
+   let foundindex = null
+   users[name].rooms.find((ele,index)=>{
+      if(ele==room){
+         foundindex=index
+      }
+      return ele==room
+   })
+
+   if(foundindex != null){
+      users[name].rooms.splice(foundindex,1)
+   }
+}
+
 function getUser(name){
    return users[name]
 }
 
 
 
-/*    OLD       */
 
-function removeUser(id){
-   const removeIndex = users.findIndex(user => user.id === id)
-
-   if(removeIndex!==-1)
-       return users.splice(removeIndex, 1)[0] //splice returns the removed so [0]acesses it
-}
-
-
-
-
-export {createUser, loginUser, userAddRoom, removeUser, getUser};
+export {createUser, loginUser, userAddRoom, getUser, userRemoveRoom};

@@ -10,6 +10,7 @@ export const checkWinner=(gb)=>{
     let resV=null;
     let resDU=null;
     let resDD=null;
+    let resTIE=null;
     //check vertical wins
     resV=checkVertWin(gb);
 
@@ -19,6 +20,8 @@ export const checkWinner=(gb)=>{
     //check diagnol wins
     resDU=checkDiagLRUWin(gb);
     resDD=checkDiagLRDWin(gb);
+
+    resTIE = checkTIE(gb);
 
     // console.log("is there a winer???")
     if(resV){
@@ -41,6 +44,10 @@ export const checkWinner=(gb)=>{
         // console.log("YES Its:",resDD)
         // setWinner(resDD);
         return(resDD)
+
+    }
+    else if(resTIE){
+        return resTIE
 
     }
     else{
@@ -186,4 +193,25 @@ const checkDiagLRDWin=(gb)=>{
     }
 
     return null
+}
+
+
+const checkTIE=(gb)=>{
+
+    let over = true;
+    
+    for(let ci=6;ci>-1;ci--){
+        if(gb[ci][0][0] =='-' || gb[ci][0][1]== '-'){
+            over = false
+        }
+    }
+    
+
+    if(over){
+        return '-'
+    }
+    else{
+        return null
+    }
+
 }

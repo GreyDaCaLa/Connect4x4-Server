@@ -65,6 +65,45 @@ function createGame(givenName,mode, pname) {
   return { newGame };
 }
 
+function del_Game(gName){
+  console.log("---Deleting game?")
+
+  let gone = false
+
+  if(games[gName]){
+    let plyrs = games[gName].players
+
+    if(plyrs.length==2){
+
+      if(plyrs[0]=='-PLG-' && plyrs[1]=='-PLG-'){
+        delete games[gName]
+        gone = true
+      }
+
+    }
+
+    if(plyrs.length==4){
+
+      if(plyrs[0]=='-PLG-' && plyrs[1]=='-PLG-' && plyrs[2]=='-PLG-' && plyrs[3]=='-PLG-'){
+        delete games[gName]
+        gone = true
+      }
+      
+    }
+
+
+    
+  }
+
+  if(gone){
+    console.log(`game ${gName} has been deleted`)
+  }else{
+    console.log(`game ${gName} still lives`)
+  }
+
+
+}
+
 function getFullGameContent(gameRoomName) {
 
   const existingGame = games[gameRoomName.trim().toLowerCase()];
@@ -98,16 +137,35 @@ function addPlayerToGame(playerName, gameName, i) {
   return games[gameName].players;
 }
 
+function removePlayerFromGame(pName,gName){
+  if(games[gName]){
+    let foundindex = null
+    if(games[gName].players[0]==pName){games[gName].players[0]="-PLG-"}
+    if(games[gName].players[1]==pName){games[gName].players[1]="-PLG-"}
+    if(games[gName].players[2]==pName){games[gName].players[2]="-PLG-"}
+    if(games[gName].players[3]==pName){games[gName].players[3]="-PLG-"}
+  }
+
+  del_Game(gName)
+}
+
 function putMoveOnBoard(gameName, move) {
   let { col, chip } = move;
 
   let newBoard;
   let winner;
   let nextTurn = games[gameName].currTurn;
+  let DOnums= games[gameName].CountDO
 
   let gb = [...games[gameName].gameBoard];
   let land = "";
 
+  //Keeping track of full chips used
+  if(chip[0]==chip[1] && chip[0]!='-'){
+    DOnums[chip[0]-1] = DOnums[chip[0]-1] -1
+  }
+
+  //handeling move on board
   for (let i = 0; i < gb[col].length && !land; i++) {
     // console.log(`col: ${col} |i:${i} =`, gb[col][i], chip);
 
@@ -191,6 +249,7 @@ function putMoveOnBoard(gameName, move) {
 
   // printLog_GameBoard(gb);
 
+  // calculating next turn
   if(games[gameName].GameMode == "4x4"){
     if (nextTurn == 4) {
       // setCurrTurn(1);
@@ -212,13 +271,15 @@ function putMoveOnBoard(gameName, move) {
   }
 
 
+  //seting if winner
   if(!winner){winner=false}
 
   games[gameName].gameBoard = newBoard;
   games[gameName].winner = winner;
   games[gameName].currTurn = nextTurn;
+  games[gameName].CountDO = DOnums;
 
-  return {newBoard,winner,nextTurn}
+  return {newBoard,winner,nextTurn,DOnums}
 }
 
 function getAllGames (){
@@ -232,4 +293,5 @@ export {
   addPlayerToGame,
   putMoveOnBoard,
   getAllGames,
+  removePlayerFromGame,
 };

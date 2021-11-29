@@ -4,8 +4,8 @@ import {Server} from 'socket.io';
 import http from 'http';
 import cors from 'cors';
 import router from './routes/routes.js';
-import { createUser, loginUser, userAddRoom, getUser } from './zUsers.js';
-import { createGame, getFullGameContent, getPlayersInGame, addPlayerToGame, putMoveOnBoard, getAllGames } from './zGames.js';
+import { createUser, loginUser, userAddRoom, getUser, userRemoveRoom } from './zUsers.js';
+import { createGame, getFullGameContent, getPlayersInGame, addPlayerToGame, putMoveOnBoard, removePlayerFromGame } from './zGames.js';
 
 const PORT = process.env.PORT || 5000
 
@@ -171,13 +171,19 @@ io.on('connection', socket => {
 
     })
 
-    socket.on('Leave_Game',(gameName)=>{
+    socket.on('Leave_Game',(gameName,pname,gwin)=>{
         console.log("------Leaving Game")
         // console.log("Person Leaving: ",playerName)
         // console.log("leaving room: ",gameName)
         // console.log(socket.rooms)
-        // socket.leave(gameName)
+        socket.leave(gameName)
         // console.log(socket.rooms)
+
+        if(gwin){
+            //player saw game end
+            //remove player from game and game from player
+            handleGameOverCleanUp(gameName,pname)
+        }
 
 
     })
@@ -188,11 +194,12 @@ io.on('connection', socket => {
         // console.log("the move is", move)
 
         // console.log("Updating GameBoard")
-        const {newBoard, winner, nextTurn} = putMoveOnBoard(gameName,move)
+        const {newBoard, winner, nextTurn,DOnums} = putMoveOnBoard(gameName,move)
 
-        console.log(newBoard)
-        console.log(winner)
-        console.log(nextTurn)
+        // console.log(newBoard)
+        // console.log(winner)
+        // console.log(nextTurn)
+        // console.log(DOnums)
 
         // console.log("Sending to everyone in this room")
 
@@ -204,7 +211,7 @@ io.on('connection', socket => {
         //     console.log(many[ga].gameBoard)
         // }
 
-        io.to(gameName).emit('REC_Move_Result',newBoard,winner,nextTurn);
+        io.to(gameName).emit('REC_Move_Result',newBoard,winner,nextTurn,DOnums);
 
 
 
@@ -290,6 +297,12 @@ function roomCardContent(arrGameNames,logedInName){
 
 }
 
+function handleGameOverCleanUp(gameName,pname){
+
+    userRemoveRoom(pname,gameName)
+    removePlayerFromGame(pname,gameName)
+
+}
 
 
 
